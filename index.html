@@ -17,21 +17,11 @@
     const errorMsg = document.querySelector('p');
     const myKey = 'ZWKTo4G51yXH3Ux21YQBFU7H9svXc0Po';
 
-    function getImage(word) {
-        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${myKey}&s=${word}`, {
-            mode: 'cors'
-            })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function(response) {
-        img.src = response.data.images.original.url;
-        })
-        .catch(function(err) {
-            errorMsg.textContent = `Sorry. Can't find images of ${word}`
-            console.error(err);
-        });
-    }
+    async function getImage(word) {
+        const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${myKey}&s=${word}`, {mode: 'cors'});
+        const info = await response.json();
+        img.src = info.data.images.original.url;
+    };
 
     getImage('cats');
     button.addEventListener('click', () => {
