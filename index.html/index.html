@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+    <input type="text">
+    <button>Change</button>
+    <p></p>
+    <br>
+    <img src="#">
+    <script>
+    const img = document.querySelector('img');
+    const button = document.querySelector('button');
+    const input = document.querySelector('input');
+    const errorMsg = document.querySelector('p');
+    const myKey = 'ZWKTo4G51yXH3Ux21YQBFU7H9svXc0Po';
+
+    function getImage(word) {
+        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=${myKey}&s=${word}`, {
+            mode: 'cors'
+            })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function(response) {
+        img.src = response.data.images.original.url;
+        })
+        .catch(function(err) {
+            errorMsg.textContent = `Sorry. Can't find images of ${word}`
+            console.error(err);
+        });
+    }
+
+    getImage('cats');
+    button.addEventListener('click', () => {
+        const searchWord = input.value;
+        if (searchWord === '') {
+            errorMsg.textContent = 'Type what kind of images you want in the search bar. e.g cows'
+        } else {
+            errorMsg.textContent = '';
+            getImage(searchWord);
+        };
+    });
+  </script>
+</body>
+</html>
